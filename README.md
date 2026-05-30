@@ -1,5 +1,7 @@
 # Local First Agent Workflows
 
+[中文说明](README.zh-CN.md)
+
 Practical templates for solo builders who use coding agents to run local-first workflows.
 
 This repository collects small, reproducible patterns for:
@@ -29,6 +31,8 @@ This project keeps the important parts in files:
 - [`templates/AGENTS.md`](templates/AGENTS.md): a practical agent operating manual
 - [`templates/task-card.md`](templates/task-card.md): a task handoff template
 - [`docs/editable-assets.md`](docs/editable-assets.md): rules for editable visual deliverables
+- [`examples/green-menu-agent-workflow.md`](examples/green-menu-agent-workflow.md): a real content pipeline example
+- [`examples/product-image-workflow.md`](examples/product-image-workflow.md): a product image workflow example
 
 ## Principles
 
@@ -41,6 +45,41 @@ This project keeps the important parts in files:
 ## Status
 
 Early public version. The templates are extracted from real solo-builder workflows and will be refined as the workflow matures.
+
+## Who This Is For
+
+This project is for builders who:
+
+- Work alone or in very small teams
+- Use coding agents daily
+- Need repeatable outputs, not one-off chat answers
+- Care about local files, source control, and editable deliverables
+- Want fewer tools and clearer routing
+
+## Repository Map
+
+```text
+.
+├── templates/
+│   ├── AGENTS.md
+│   └── task-card.md
+├── examples/
+│   ├── green-menu-agent-workflow.md
+│   └── product-image-workflow.md
+└── docs/
+    ├── editable-assets.md
+    └── tool-routing.md
+```
+
+## Maintainer Workflow
+
+When adding a new workflow:
+
+1. Write the task as a task card.
+2. Define which tool owns each step.
+3. Keep source files editable.
+4. Add a verification step.
+5. Document what should not be automated yet.
 
 ## License
 
