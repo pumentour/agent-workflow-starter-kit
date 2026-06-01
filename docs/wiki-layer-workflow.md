@@ -200,8 +200,25 @@ Generated support files:
 
 - `wiki/_state.json`
 - `wiki/_graph.md`
+- `wiki/_graph.json`
 - `wiki/_conflicts.md`
 
 This is still intentionally local-first and simple.
 
 It is not trying to become a database before the workflow needs one.
+
+## Graph Viewer
+
+This repository includes a small browser viewer:
+
+```bash
+python -m http.server 8000
+```
+
+Open:
+
+```text
+http://localhost:8000/viewer/
+```
+
+The viewer loads `wiki/_graph.json` and renders an interactive graph.

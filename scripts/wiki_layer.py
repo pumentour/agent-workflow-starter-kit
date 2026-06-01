@@ -27,6 +27,7 @@ DEFAULT_RAW = "raw"
 DEFAULT_WIKI = "wiki"
 STATE_NAME = "_state.json"
 GRAPH_NAME = "_graph.md"
+GRAPH_JSON_NAME = "_graph.json"
 CONFLICTS_NAME = "_conflicts.md"
 
 
@@ -317,6 +318,31 @@ def render_graph(docs: list[SourceDoc]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def graph_payload(docs: list[SourceDoc]) -> dict[str, Any]:
+    nodes = [
+        {
+            "id": doc.slug,
+            "title": doc.title,
+            "summary": doc.summary,
+            "tags": doc.tags,
+            "source": doc.rel_source,
+            "wiki": f"wiki/{doc.slug}.md",
+        }
+        for doc in sorted(docs, key=lambda item: item.title.lower())
+    ]
+    links: list[dict[str, str | int]] = []
+    for doc in docs:
+        for other in docs:
+            score = relation_score(doc, other)
+            if score > 0:
+                links.append({"source": doc.slug, "target": other.slug, "weight": score})
+    return {
+        "generated_at": utc_timestamp(),
+        "nodes": nodes,
+        "links": links,
+    }
+
+
 def output_hash(path: Path) -> str | None:
     if not path.exists():
         return None
@@ -405,6 +431,10 @@ def ingest(raw_dir: Path, wiki_dir: Path, force: bool = False) -> int:
 
     write_text_if_changed(wiki_dir / "project-index.md", render_index(docs))
     write_text_if_changed(wiki_dir / GRAPH_NAME, render_graph(docs))
+    write_text_if_changed(
+        wiki_dir / GRAPH_JSON_NAME,
+        json.dumps(graph_payload(docs), ensure_ascii=False, indent=2) + "\n",
+    )
     if conflicts:
         conflict_text = "# Wiki Conflicts\n\n" + "\n".join(conflicts) + "\n"
     else:
@@ -440,7 +470,12 @@ def scan(raw_dir: Path, wiki_dir: Path) -> int:
 def graph(raw_dir: Path, wiki_dir: Path) -> int:
     docs = build_docs(raw_dir, wiki_dir)
     write_text_if_changed(wiki_dir / GRAPH_NAME, render_graph(docs))
+    write_text_if_changed(
+        wiki_dir / GRAPH_JSON_NAME,
+        json.dumps(graph_payload(docs), ensure_ascii=False, indent=2) + "\n",
+    )
     print(f"Generated {wiki_dir.joinpath(GRAPH_NAME).relative_to(ROOT)}")
+    print(f"Generated {wiki_dir.joinpath(GRAPH_JSON_NAME).relative_to(ROOT)}")
     return 0
 
 

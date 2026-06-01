@@ -83,3 +83,19 @@ python scripts/wiki_layer.py watch --interval 5
 ```
 
 高级版会记录源文件哈希、保留人工修改、报告冲突，并生成 `wiki/_graph.md`。
+
+## 图谱查看器
+
+启动本地静态服务：
+
+```bash
+python -m http.server 8000
+```
+
+然后打开：
+
+```text
+http://localhost:8000/viewer/
+```
+
+查看器会读取 `wiki/_graph.json`。

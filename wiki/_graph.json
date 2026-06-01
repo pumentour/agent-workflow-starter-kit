@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-06-01T03:43:38+00:00",
+  "nodes": [
+    {
+      "id": "codex-plugin-notes",
+      "title": "Codex Plugin Notes",
+      "summary": "The useful Codex plugin stack for this workflow is intentionally small.",
+      "tags": [
+        "codex",
+        "plugin",
+        "biorender",
+        "browser",
+        "canva",
+        "current",
+        "delay",
+        "documents"
+      ],
+      "source": "raw/codex-plugin-notes.md",
+      "wiki": "wiki/codex-plugin-notes.md"
+    },
+    {
+      "id": "wiki-layer-notes",
+      "title": "Wiki Layer Notes",
+      "summary": "The Wiki Layer pattern keeps original files in raw, structured notes in wiki, and transformation rules in instructions.",
+      "tags": [
+        "wiki",
+        "layer",
+        "files",
+        "notes",
+        "original",
+        "should",
+        "clean",
+        "context"
+      ],
+      "source": "raw/wiki-layer-notes.md",
+      "wiki": "wiki/wiki-layer-notes.md"
+    }
+  ],
+  "links": [
+    {
+      "source": "codex-plugin-notes",
+      "target": "wiki-layer-notes",
+      "weight": 1
+    },
+    {
+      "source": "wiki-layer-notes",
+      "target": "codex-plugin-notes",
+      "weight": 1
+    }
+  ]
+}

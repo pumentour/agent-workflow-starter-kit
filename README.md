@@ -73,6 +73,7 @@ This project is for builders who:
 ├── wiki/
 ├── instructions/
 ├── scripts/
+├── viewer/
 ├── templates/
 │   ├── AGENTS.md
 │   └── task-card.md
@@ -119,6 +120,22 @@ python scripts/wiki_layer.py watch --interval 5
 ```
 
 The advanced tool tracks source hashes, preserves manual edits, reports conflicts, and writes `wiki/_graph.md`.
+
+## Graph Viewer
+
+Open the dynamic graph viewer:
+
+```bash
+python -m http.server 8000
+```
+
+Then visit:
+
+```text
+http://localhost:8000/viewer/
+```
+
+The viewer reads `wiki/_graph.json`.
 
 ## License
 
