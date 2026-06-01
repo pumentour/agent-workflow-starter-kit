@@ -17,6 +17,7 @@
 - 原始资料怎么进入 `raw/`
 - 干净知识怎么沉淀到 `wiki/`
 - 转换规则怎么放进 `instructions/`
+- 用 `scripts/ingest.py` 跑最小 Wiki Layer
 - 工具怎么路由
 - 产物怎么验证
 - 图文交付怎么保留源文件
@@ -63,3 +64,22 @@
 
 早期版本。  
 内容来自真实的一人公司 AI 工作流，会继续迭代。
+
+## 快速生成 Wiki
+
+```bash
+python scripts/ingest.py
+```
+
+这个命令会读取 `raw/` 下的 Markdown，生成到 `wiki/`，并更新 `wiki/project-index.md`。
+
+高级命令：
+
+```bash
+python scripts/wiki_layer.py scan
+python scripts/wiki_layer.py ingest
+python scripts/wiki_layer.py graph
+python scripts/wiki_layer.py watch --interval 5
+```
+
+高级版会记录源文件哈希、保留人工修改、报告冲突，并生成 `wiki/_graph.md`。

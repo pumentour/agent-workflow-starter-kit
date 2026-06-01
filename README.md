@@ -8,6 +8,7 @@ This repository collects small, reproducible patterns for:
 
 - Maintaining `AGENTS.md` as a local operating manual
 - Maintaining a `raw/ -> wiki/ -> instructions/` knowledge layer
+- Running a small `scripts/ingest.py` wiki builder
 - Turning repeated work into agent-ready task cards
 - Keeping source files editable instead of shipping only final images
 - Using `HTML/CSS + Playwright` for deterministic visual assets
@@ -71,6 +72,7 @@ This project is for builders who:
 ├── raw/
 ├── wiki/
 ├── instructions/
+├── scripts/
 ├── templates/
 │   ├── AGENTS.md
 │   └── task-card.md
@@ -98,6 +100,25 @@ When adding a new workflow:
 3. Keep source files editable.
 4. Add a verification step.
 5. Document what should not be automated yet.
+
+## Quick Wiki Build
+
+```bash
+python scripts/ingest.py
+```
+
+This reads Markdown files from `raw/`, writes clean notes into `wiki/`, and updates `wiki/project-index.md`.
+
+Advanced commands:
+
+```bash
+python scripts/wiki_layer.py scan
+python scripts/wiki_layer.py ingest
+python scripts/wiki_layer.py graph
+python scripts/wiki_layer.py watch --interval 5
+```
+
+The advanced tool tracks source hashes, preserves manual edits, reports conflicts, and writes `wiki/_graph.md`.
 
 ## License
 

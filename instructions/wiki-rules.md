@@ -41,3 +41,15 @@ If a new source conflicts with an existing wiki note:
 Prefer small updates.
 
 Do not rewrite the whole wiki unless the structure is wrong.
+
+## Automation Rule
+
+Use:
+
+```bash
+python scripts/wiki_layer.py ingest
+```
+
+Review `wiki/_conflicts.md` after each run.
+
+If a source file and its generated wiki page both changed, resolve the conflict manually before using `--force`.

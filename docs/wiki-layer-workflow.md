@@ -157,3 +157,51 @@ my-project/
 Start small.
 
 Do not build a complex knowledge system before you have repeat work.
+
+## Runnable Starter
+
+This repository includes a small wiki builder:
+
+```bash
+python scripts/ingest.py
+```
+
+It reads `raw/*.md`, creates wiki pages, adds metadata, and updates `wiki/project-index.md`.
+
+## Advanced Local Version
+
+The advanced local tool is:
+
+```bash
+python scripts/wiki_layer.py ingest
+```
+
+It supports:
+
+- recursive raw file scanning
+- source hashing
+- state tracking
+- automatic related links
+- graph generation
+- conflict reporting
+- watch mode
+- preserving manual edits unless forced
+
+Commands:
+
+```bash
+python scripts/wiki_layer.py scan
+python scripts/wiki_layer.py ingest
+python scripts/wiki_layer.py graph
+python scripts/wiki_layer.py watch --interval 5
+```
+
+Generated support files:
+
+- `wiki/_state.json`
+- `wiki/_graph.md`
+- `wiki/_conflicts.md`
+
+This is still intentionally local-first and simple.
+
+It is not trying to become a database before the workflow needs one.
