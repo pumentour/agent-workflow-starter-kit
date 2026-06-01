@@ -30,9 +30,12 @@ This project keeps the important parts in files:
 
 - [`templates/AGENTS.md`](templates/AGENTS.md): a practical agent operating manual
 - [`templates/task-card.md`](templates/task-card.md): a task handoff template
+- [`docs/codex-setup.md`](docs/codex-setup.md): a practical Codex setup workflow
+- [`docs/codex-plugin-stack.md`](docs/codex-plugin-stack.md): a minimal plugin stack for solo builders
 - [`docs/editable-assets.md`](docs/editable-assets.md): rules for editable visual deliverables
 - [`examples/green-menu-agent-workflow.md`](examples/green-menu-agent-workflow.md): a real content pipeline example
 - [`examples/product-image-workflow.md`](examples/product-image-workflow.md): a product image workflow example
+- [`examples/codex-for-oss-application.md`](examples/codex-for-oss-application.md): an open-source support application checklist
 
 ## Principles
 
@@ -64,9 +67,12 @@ This project is for builders who:
 │   ├── AGENTS.md
 │   └── task-card.md
 ├── examples/
+│   ├── codex-for-oss-application.md
 │   ├── green-menu-agent-workflow.md
 │   └── product-image-workflow.md
 └── docs/
+    ├── codex-plugin-stack.md
+    ├── codex-setup.md
     ├── editable-assets.md
     └── tool-routing.md
 ```
