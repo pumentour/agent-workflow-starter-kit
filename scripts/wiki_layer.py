@@ -90,6 +90,13 @@ def write_text(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def write_text_if_changed(path: Path, text: str) -> bool:
+    if path.exists() and read_text(path) == text:
+        return False
+    write_text(path, text)
+    return True
+
+
 def rel(path: Path) -> str:
     return path.resolve().relative_to(ROOT).as_posix()
 
@@ -157,6 +164,17 @@ def load_state(wiki_dir: Path) -> dict[str, Any]:
 def save_state(wiki_dir: Path, state: dict[str, Any]) -> None:
     state["updated_at"] = utc_timestamp()
     write_text(wiki_dir / STATE_NAME, json.dumps(state, ensure_ascii=False, indent=2) + "\n")
+
+
+def save_state_if_changed(wiki_dir: Path, state: dict[str, Any]) -> bool:
+    state_path = wiki_dir / STATE_NAME
+    current = read_text(state_path) if state_path.exists() else ""
+    candidate_state = dict(state)
+    previous = json.loads(current) if current else {}
+    if previous.get("sources") == candidate_state.get("sources") and previous.get("version") == candidate_state.get("version"):
+        return False
+    candidate_state["updated_at"] = utc_timestamp()
+    return write_text_if_changed(state_path, json.dumps(candidate_state, ensure_ascii=False, indent=2) + "\n")
 
 
 def find_sources(raw_dir: Path) -> list[Path]:
@@ -314,8 +332,12 @@ def ingest(raw_dir: Path, wiki_dir: Path, force: bool = False) -> int:
     conflicts: list[str] = []
     written = 0
     preserved = 0
+    unchanged = 0
+    removed = 0
+    current_sources: set[str] = set()
 
     for doc in docs:
+        current_sources.add(doc.rel_source)
         rendered = render_doc(doc, docs)
         previous = sources_state.get(doc.rel_source)
         existing_text = read_text(doc.output) if doc.output.exists() else ""
@@ -324,6 +346,17 @@ def ingest(raw_dir: Path, wiki_dir: Path, force: bool = False) -> int:
         previous_source_hash = previous.get("source_hash") if previous else None
         manual_edit = bool(previous_output_hash and existing_hash and existing_hash != previous_output_hash)
         source_changed = bool(previous_source_hash and previous_source_hash != doc.source_hash)
+        already_current = bool(
+            previous
+            and previous_source_hash == doc.source_hash
+            and existing_hash
+            and existing_hash == previous_output_hash
+            and existing_text == rendered
+        )
+
+        if already_current and not force:
+            unchanged += 1
+            continue
 
         if doc.output.exists() and not previous and not is_generated_page(existing_text) and not force:
             conflicts.append(f"- `{doc.rel_source}` maps to existing manual page `{rel(doc.output)}`")
@@ -339,7 +372,7 @@ def ingest(raw_dir: Path, wiki_dir: Path, force: bool = False) -> int:
             preserved += 1
             continue
 
-        write_text(doc.output, rendered)
+        write_text_if_changed(doc.output, rendered)
         new_hash = sha256_text(rendered)
         sources_state[doc.rel_source] = {
             "title": doc.title,
@@ -351,17 +384,38 @@ def ingest(raw_dir: Path, wiki_dir: Path, force: bool = False) -> int:
         }
         written += 1
 
-    write_text(wiki_dir / "project-index.md", render_index(docs))
-    write_text(wiki_dir / GRAPH_NAME, render_graph(docs))
+    for rel_source, previous in list(sources_state.items()):
+        if rel_source in current_sources:
+            continue
+        output_value = previous.get("output")
+        if not output_value:
+            del sources_state[rel_source]
+            continue
+        output_path = ROOT / output_value
+        existing_hash = output_hash(output_path)
+        previous_output_hash = previous.get("output_hash")
+        if output_path.exists() and existing_hash and existing_hash != previous_output_hash and not force:
+            conflicts.append(f"- `{rel_source}` was removed, but `{output_value}` has manual edits")
+            preserved += 1
+            continue
+        if output_path.exists():
+            output_path.unlink()
+            removed += 1
+        del sources_state[rel_source]
+
+    write_text_if_changed(wiki_dir / "project-index.md", render_index(docs))
+    write_text_if_changed(wiki_dir / GRAPH_NAME, render_graph(docs))
     if conflicts:
         conflict_text = "# Wiki Conflicts\n\n" + "\n".join(conflicts) + "\n"
     else:
         conflict_text = "# Wiki Conflicts\n\nNo conflicts.\n"
-    write_text(wiki_dir / CONFLICTS_NAME, conflict_text)
-    save_state(wiki_dir, state)
+    write_text_if_changed(wiki_dir / CONFLICTS_NAME, conflict_text)
+    save_state_if_changed(wiki_dir, state)
 
     print(f"Sources: {len(docs)}")
     print(f"Written: {written}")
+    print(f"Unchanged: {unchanged}")
+    print(f"Removed: {removed}")
     print(f"Preserved: {preserved}")
     print(f"Conflicts: {len(conflicts)}")
     return 1 if conflicts else 0
@@ -385,7 +439,7 @@ def scan(raw_dir: Path, wiki_dir: Path) -> int:
 
 def graph(raw_dir: Path, wiki_dir: Path) -> int:
     docs = build_docs(raw_dir, wiki_dir)
-    write_text(wiki_dir / GRAPH_NAME, render_graph(docs))
+    write_text_if_changed(wiki_dir / GRAPH_NAME, render_graph(docs))
     print(f"Generated {wiki_dir.joinpath(GRAPH_NAME).relative_to(ROOT)}")
     return 0
 
