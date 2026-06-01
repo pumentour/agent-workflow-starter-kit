@@ -14,6 +14,9 @@
 
 - Agent 应该知道什么
 - 任务怎么交接
+- 原始资料怎么进入 `raw/`
+- 干净知识怎么沉淀到 `wiki/`
+- 转换规则怎么放进 `instructions/`
 - 工具怎么路由
 - 产物怎么验证
 - 图文交付怎么保留源文件
@@ -25,6 +28,7 @@
 - [`docs/codex-setup.md`](docs/codex-setup.md)：Codex 搭建流程
 - [`docs/codex-plugin-stack.md`](docs/codex-plugin-stack.md)：一人公司的 Codex 插件取舍
 - [`docs/codex-plugin-audit-log.md`](docs/codex-plugin-audit-log.md)：Codex 插件安装/卸载审计
+- [`docs/wiki-layer-workflow.md`](docs/wiki-layer-workflow.md)：raw/wiki/instructions 三层知识库工作流
 - [`docs/editable-assets.md`](docs/editable-assets.md)：可编辑图文资产原则
 - [`docs/tool-routing.md`](docs/tool-routing.md)：工具路由规则
 - [`examples/green-menu-agent-workflow.md`](examples/green-menu-agent-workflow.md)：绿色菜单内容管线示例

@@ -7,6 +7,7 @@ Practical templates for solo builders who use coding agents to run local-first w
 This repository collects small, reproducible patterns for:
 
 - Maintaining `AGENTS.md` as a local operating manual
+- Maintaining a `raw/ -> wiki/ -> instructions/` knowledge layer
 - Turning repeated work into agent-ready task cards
 - Keeping source files editable instead of shipping only final images
 - Using `HTML/CSS + Playwright` for deterministic visual assets
@@ -33,6 +34,7 @@ This project keeps the important parts in files:
 - [`docs/codex-setup.md`](docs/codex-setup.md): a practical Codex setup workflow
 - [`docs/codex-plugin-stack.md`](docs/codex-plugin-stack.md): a minimal plugin stack for solo builders
 - [`docs/codex-plugin-audit-log.md`](docs/codex-plugin-audit-log.md): installed vs removed plugin audit notes
+- [`docs/wiki-layer-workflow.md`](docs/wiki-layer-workflow.md): raw/wiki/instructions knowledge workflow
 - [`docs/editable-assets.md`](docs/editable-assets.md): rules for editable visual deliverables
 - [`examples/green-menu-agent-workflow.md`](examples/green-menu-agent-workflow.md): a real content pipeline example
 - [`examples/product-image-workflow.md`](examples/product-image-workflow.md): a product image workflow example
@@ -66,6 +68,9 @@ This project is for builders who:
 
 ```text
 .
+├── raw/
+├── wiki/
+├── instructions/
 ├── templates/
 │   ├── AGENTS.md
 │   └── task-card.md
@@ -80,6 +85,7 @@ This project is for builders who:
     ├── codex-plugin-stack.md
     ├── codex-setup.md
     ├── editable-assets.md
+    ├── wiki-layer-workflow.md
     └── tool-routing.md
 ```
 
