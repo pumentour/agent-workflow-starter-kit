@@ -24,10 +24,13 @@
 - [`templates/task-card.md`](templates/task-card.md)：任务卡模板
 - [`docs/codex-setup.md`](docs/codex-setup.md)：Codex 搭建流程
 - [`docs/codex-plugin-stack.md`](docs/codex-plugin-stack.md)：一人公司的 Codex 插件取舍
+- [`docs/codex-plugin-audit-log.md`](docs/codex-plugin-audit-log.md)：Codex 插件安装/卸载审计
 - [`docs/editable-assets.md`](docs/editable-assets.md)：可编辑图文资产原则
 - [`docs/tool-routing.md`](docs/tool-routing.md)：工具路由规则
 - [`examples/green-menu-agent-workflow.md`](examples/green-menu-agent-workflow.md)：绿色菜单内容管线示例
 - [`examples/product-image-workflow.md`](examples/product-image-workflow.md)：商品图工作流示例
+- [`examples/codex-plugin-decision-record.md`](examples/codex-plugin-decision-record.md)：真实插件决策记录
+- [`examples/agents-md-evolution.md`](examples/agents-md-evolution.md)：AGENTS.md 如何演进成工作手册
 - [`examples/codex-for-oss-application.md`](examples/codex-for-oss-application.md)：Codex for OSS 申请清单
 
 ## 核心原则
